@@ -6,6 +6,7 @@ class GameChannel < ApplicationCable::Channel
   def unsubscribed
     game = Game.find(params[:game_id])
     game.destroy!
+    ActionCable.server.broadcast("game_#{game.id}_channel", "game_removed")
   end
 
   def create(opts)
